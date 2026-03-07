@@ -1,0 +1,42 @@
+name: cso_bluesky_bot
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs every 2 hours from 8am-6pm UTC (Irish business hours)
+    - cron: '0 8,10,12,14,16,18 * * 1-5'
+
+jobs:
+  check-and-post:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+
+      - name: Install system dependencies (macOS)
+        run: |
+          brew install harfbuzz fribidi freetype
+
+      - name: Install R packages
+        run: |
+          R -e 'install.packages(c("bskyr", "csodata", "glue", "scales", "tidyverse"))'
+          R -e 'install.packages("pak"); pak::pak("nrennie/ggauto")'
+
+      - name: Run CSO Bluesky bot
+        run: Rscript bot_cso_bluesky.R
+        env:
+          BLUESKY_APP_USER: ${{ secrets.BLUESKY_APP_USER }}
+          BLUESKY_APP_PASS: ${{ secrets.BLUESKY_APP_PASS }}
+
+      - name: Commit updated tracking file
+        run: |
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/posted_tables.csv
+          timestamp=$(date -u)
+          git commit -m "Update posted tables: ${timestamp}" || exit 0
+          git push
