@@ -24,7 +24,6 @@ jobs:
       - name: Install R packages
         run: |
           R -e 'install.packages(c("bskyr", "csodata", "glue", "scales", "tidyverse"))'
-          R -e 'install.packages("pak"); pak::pak("nrennie/ggauto")'
       - name: Debug secrets
         run: |
           if [ -z "$BLUESKY_CSOIE_APP_USER" ]; then echo "SECRET IS EMPTY"; else echo "SECRET IS SET (length: ${#BLUESKY_CSOIE_APP_USER})"; fi
