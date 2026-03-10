@@ -142,11 +142,39 @@ if (is.na(time_col)) {
   }
 }
 
+# year-over-year decomposition: when the time column holds "YYYY MonthName"
+# values spanning multiple years, split into Month (x-axis) + .year (color)
+yoy_col <- NULL
+if (!is.na(time_col)) {
+  tv <- as.character(df[[time_col]])
+  # check if most values match "YYYY MonthName" pattern
+  is_ym <- str_detect(tv, "^\\d{4}\\s+(January|February|March|April|May|June|July|August|September|October|November|December)$")
+  if (mean(is_ym, na.rm = TRUE) > 0.9) {
+    df <- df |>
+      mutate(
+        .year      = str_extract(.data[[time_col]], "^\\d{4}"),
+        .month_name = str_extract(.data[[time_col]], "[A-Za-z]+$"),
+        .month_name = factor(.month_name,
+                             levels = month.name, ordered = TRUE)
+      ) |>
+      filter(!is.na(.month_name))
+    # keep last 6 complete years (12 months each) to avoid too many lines
+    year_completeness <- df |> count(.year) |> filter(n >= 12) |> pull(.year)
+    recent_years <- sort(as.integer(year_completeness), decreasing = TRUE)[1:min(6, length(year_completeness))]
+    recent_years <- as.character(recent_years)
+    df <- df |> filter(.year %in% recent_years)
+    time_col <- ".month_name"
+    yoy_col  <- ".year"
+  }
+}
+
 # exclude ALL time-like columns from grouping, not just the selected one
 all_time_cols <- intersect(time_candidates, names(df))
+# also exclude synthetic YOY columns
+yoy_exclude <- if (!is.null(yoy_col)) c(yoy_col, time_col) else character()
 
 # identify and clean categorical columns ----------------------------------------
-exclude_cols <- na.omit(unique(c(all_time_cols, "value", "Statistic", "STATISTIC")))
+exclude_cols <- na.omit(unique(c(all_time_cols, yoy_exclude, "value", "Statistic", "STATISTIC")))
 other_cols   <- setdiff(names(df), exclude_cols)
 
 # drop aggregate / "total" rows so they don't inflate level counts or double-count
@@ -187,6 +215,13 @@ for (i in seq_len(nrow(cat_info))) {
     if (ci$n_levels > MAX_FACET) df <- trim_levels(df, ci$col, MAX_FACET)
     facet_col <- ci$col
   }
+}
+
+# when year-over-year is active, .year becomes the color and existing group
+# becomes a facet
+if (!is.null(yoy_col)) {
+  if (!is.null(group_col) && is.null(facet_col)) facet_col <- group_col
+  group_col <- yoy_col
 }
 
 # aggregate to group_vars (include all categorical columns)
@@ -240,12 +275,13 @@ p <- tryCatch({
   # --- Case 1: time series with groups → coloured lines ----------------------
   if (!is.na(time_col) && !is.null(group_col)) {
     # wrap long group labels so the legend doesn't squash the plot
-    plot_df[[group_col]] <- str_wrap(plot_df[[group_col]], 30)
+    group_label <- if (!is.null(yoy_col) && group_col == yoy_col) "Year" else str_wrap(to_sentence(group_col), 20)
+    if (is.null(yoy_col)) plot_df[[group_col]] <- str_wrap(plot_df[[group_col]], 30)
     pp <- ggplot(plot_df, aes(.data[[time_col]], value,
                         color = .data[[group_col]],
                         group = .data[[group_col]])) +
       geom_line(linewidth = 1) +
-      scale_color_brewer(palette = "Set1", name = str_wrap(to_sentence(group_col), 20)) +
+      scale_color_brewer(palette = "Set1", name = group_label) +
       scale_y_continuous(labels = label_comma()) +
       labs(
         title    = str_wrap(tbl_title, 55),
