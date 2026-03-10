@@ -25,12 +25,16 @@ jobs:
         run: |
           R -e 'install.packages(c("bskyr", "csodata", "glue", "scales", "tidyverse"))'
           R -e 'install.packages("pak"); pak::pak("nrennie/ggauto")'
-
+      - name: Debug secrets
+        run: |
+          if [ -z "$BLUESKY_CSOIE_APP_USER" ]; then echo "SECRET IS EMPTY"; else echo "SECRET IS SET (length: ${#BLUESKY_CSOIE_APP_USER})"; fi
+        env:
+          BLUESKY_CSOIE_APP_USER: ${{ secrets.BLUESKY_CSOIE_APP_USER }}
       - name: Run CSO Bluesky bot
         run: Rscript bot_cso_bluesky.R
         env:
-          BLUESKY_APP_USER: ${{ secrets.BLUESKY_APP_USER }}
-          BLUESKY_APP_PASS: ${{ secrets.BLUESKY_APP_PASS }}
+          BLUESKY_CSOIE_APP_USER: ${{ secrets.BLUESKY_CSOIE_APP_USER }}
+          BLUESKY_CSOIE_APP_PASS: ${{ secrets.BLUESKY_CSOIE_APP_PASS }}
 
       - name: Commit updated tracking file
         run: |
