@@ -59,6 +59,7 @@ cso_theme <- function() {
       plot.subtitle = element_text(color = "grey40", size = 10),
       plot.caption  = element_text(color = "grey55", size = 8),
       axis.text.x   = element_text(angle = 45, hjust = 1),
+      strip.text    = element_text(size = 8, lineheight = 1.1),
       panel.grid.minor = element_blank(),
       plot.background  = element_rect(fill = "white", color = NA)
     )
@@ -273,6 +274,22 @@ for (row_i in seq_len(nrow(tables_to_post))) {
     }
   }
 
+  # wrap facet labels to prevent overlap
+  if (!is.null(facet_col)) {
+    plot_df[[facet_col]] <- str_wrap(as.character(plot_df[[facet_col]]), 30)
+  }
+
+  # build a labeller that prefixes facet strips with the column name
+  facet_labeller <- if (!is.null(facet_col)) {
+    facet_title <- to_sentence(facet_col)
+    function(labels) {
+      labels[[1]] <- paste0(facet_title, ": ", labels[[1]])
+      labels
+    }
+  } else {
+    NULL
+  }
+
   # 5. build visualisation -----------------------------------------------------
   # skip individual points when many time values (e.g. daily data)
   n_time <- if (!is.na(time_col)) n_distinct(plot_df[[time_col]]) else 0
@@ -304,7 +321,8 @@ for (row_i in seq_len(nrow(tables_to_post))) {
       if (show_points) pp <- pp + geom_point(size = 1.5)
       if (!is.null(facet_col)) {
         pp <- pp + facet_wrap(vars(.data[[facet_col]]), ncol = 1,
-                              strip.position = "right")
+                              strip.position = "right",
+                              labeller = facet_labeller)
       }
       pp
 
@@ -324,7 +342,8 @@ for (row_i in seq_len(nrow(tables_to_post))) {
       if (show_points) pp <- pp + geom_point(color = CSO_BLUE, size = 2)
       if (!is.null(facet_col)) {
         pp <- pp + facet_wrap(vars(.data[[facet_col]]), ncol = 1,
-                              strip.position = "right")
+                              strip.position = "right",
+                              labeller = facet_labeller)
       }
       pp
 
