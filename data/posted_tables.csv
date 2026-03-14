@@ -61,3 +61,6 @@ SPP05,Services Producer Price Index,2026-03-14
 SPP07,Services Producer Price Index,2026-03-14
 MSI03,Services Index (Base 2021=100),2026-03-14
 MSQ03,Services Index (Base 2021=100),2026-03-14
+MSA03,Services Index (Base 2021=100),2026-03-14
+HIPE03,Hospital Discharges,2026-03-14
+HIPE04,Hospital Discharges – Inpatients Only,2026-03-14
