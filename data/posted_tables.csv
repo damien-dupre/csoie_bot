@@ -133,3 +133,6 @@ TSM14,Value of Merchandise Trade,2026-03-20
 DOTM05,Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment),2026-03-20
 DOTM06,Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment),2026-03-20
 DOTM07,Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment),2026-03-20
+DOTM08,Private Vehicles,2026-03-20
+DOTM09,Goods Vehicles,2026-03-20
+TTM02,Mechanically Propelled Vehicles Under Licence,2026-03-20
