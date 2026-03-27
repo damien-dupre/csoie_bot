@@ -261,3 +261,6 @@ MTH07,Sunshine,2026-03-27
 MTD07,Sunshine,2026-03-27
 MTH06,Air Temperature,2026-03-27
 MTD08,"Wind, Maximum Gale Gust",2026-03-27
+MTH05,Precipitation Amount,2026-03-27
+MTH08,Wind Speed,2026-03-27
+RSM08,Retail Sales Index (NACE Rev 2) (Base Year 2021=100),2026-03-27
