@@ -258,3 +258,6 @@ ADM01,Livestock Slaughterings,2026-03-27
 MTD05,Precipitation Amount,2026-03-27
 MTD06,Temperature,2026-03-27
 MTH07,Sunshine,2026-03-27
+MTD07,Sunshine,2026-03-27
+MTH06,Air Temperature,2026-03-27
+MTD08,"Wind, Maximum Gale Gust",2026-03-27
