@@ -331,3 +331,6 @@ TII04,Traffic Volume,2026-04-13
 TOA05,Age profile of small public service vehicle fleet,2026-04-13
 ROA29,Road Fatalities,2026-04-13
 TII03,Passenger Journeys by Luas,2026-04-13
+NGSD01,Networked Gas Daily Supply,2026-04-14
+NGSD02,Networked Gas Daily Demand,2026-04-14
+NGSDM01,Networked Gas Monthly Supply,2026-04-14
