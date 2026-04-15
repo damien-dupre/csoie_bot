@@ -335,3 +335,6 @@ NGSD01,Networked Gas Daily Supply,2026-04-14
 NGSD02,Networked Gas Daily Demand,2026-04-14
 NGSDM01,Networked Gas Monthly Supply,2026-04-14
 NGSDM02,Networked Gas Monthly Demand,2026-04-14
+TSA02,Merchandise Trade Price Indices,2026-04-15
+AJM01,Cattle Price (including VAT),2026-04-15
+AJM08,Feed Stuff Price (Euro per Tonne),2026-04-15
