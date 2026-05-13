@@ -545,3 +545,6 @@ DHA75,Inpatient and Daycase Hospital Discharges,2026-05-13
 DHA76,Inpatient Hospital Bed Days and Average Length of Stay,2026-05-13
 DHA77,Total Hospital Discharges by Principal Diagnosis and Age Group,2026-05-13
 DHA78,Total Hospital Discharges by Principal Diagnosis and Area,2026-05-13
+DHA79,Inpatient and Daycase Hospital Discharges by Principal Diagnosis and Age Group,2026-05-13
+DHA80,Inpatient and Daycase Hospital Discharges by Principal Diagnosis and Area,2026-05-13
+DHA81,Inpatient Hospital Bed Days by Principal Diagnosis and Age Group,2026-05-13
