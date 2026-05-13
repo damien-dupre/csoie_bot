@@ -542,3 +542,6 @@ TCA03,Principal Commodities Conveyed by Rail,2026-05-12
 HPQ01,Residential Property Price Index,2026-05-13
 DHA74,Total Hospital Discharges,2026-05-13
 DHA75,Inpatient and Daycase Hospital Discharges,2026-05-13
+DHA76,Inpatient Hospital Bed Days and Average Length of Stay,2026-05-13
+DHA77,Total Hospital Discharges by Principal Diagnosis and Age Group,2026-05-13
+DHA78,Total Hospital Discharges by Principal Diagnosis and Area,2026-05-13
