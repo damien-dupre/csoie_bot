@@ -551,3 +551,6 @@ DHA81,Inpatient Hospital Bed Days by Principal Diagnosis and Age Group,2026-05-1
 DHA82,Inpatient Hospital Bed Days by Principal Diagnosis and Area,2026-05-13
 DHA83,Average Length of Stay by Principal Diagnosis and Age Group,2026-05-13
 DHA84,Average Length of Stay by Principal Diagnosis and Area,2026-05-13
+DHA85,Age-Standardised Hospital Discharge Rate by Principal Diagnosis and Age Group,2026-05-14
+DHA86,Age-Standardised Hospital Discharge Rate by Principal Diagnosis and Area,2026-05-14
+DHA87,Age-Standardised Morbidity Ratio by Principal Diagnosis and Age Group,2026-05-14
