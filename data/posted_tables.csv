@@ -577,3 +577,6 @@ DHA95,Total Hospital Discharges with a Procedure Recorded,2026-05-15
 DHA96,Inpatient and Daycase Hospital Discharges with a Procedure Recorded,2026-05-15
 DHA97,Hospital Bed Days and Average Length of Stay of Discharges with a Procedure Recorded,2026-05-15
 DHA98,Total Hospital Discharges by Principal Procedure and Age Group,2026-05-15
+DHA99,Total Hospital Discharges by Principal Procedure and Area,2026-05-15
+DHA100,Inpatient and Daycase Hospital Discharges by Principal Procedure and Age Group,2026-05-15
+DHA101,Inpatient and Daycase Hospital Discharges by Principal Procedure and Area,2026-05-15
