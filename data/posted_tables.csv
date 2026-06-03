@@ -692,3 +692,6 @@ VSAS79,Birth Registered within and outside Marriage,2026-06-02
 VSAS30,Births,2026-06-03
 VSAS80,Birth Registered within and outside Marriage,2026-06-03
 VSA07,Deaths Occurring,2026-06-03
+VSA09,"Deaths and Death Rates per 1,000 population",2026-06-03
+VSD30,Suicides,2026-06-03
+VSD32,Suicide death rates,2026-06-03
