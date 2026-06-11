@@ -740,3 +740,6 @@ DSP03,Quarterly count of recipient programmes,2026-06-11
 DSP04,Quarterly count of recipient programmes,2026-06-11
 DSP05,Total count of recipient programmes,2026-06-11
 ALF01,Annual Employment Rate,2026-06-11
+ALF02,Annual Percentage of Part-time Work,2026-06-11
+ALF03,Annual Unemployment Rate,2026-06-11
+ALF04,Annual Long Term Unemployment Rate,2026-06-11
