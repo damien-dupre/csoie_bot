@@ -757,3 +757,6 @@ HSPAN14,Success rates of 6-hours target in Emergency Departments,2026-06-17
 HSPAM13B,Hospital Employment,2026-06-17
 HSPAH24,Readmission related to surgical care,2026-06-17
 HSPAH23,Readmission related to emergency care provision,2026-06-17
+HSPAG29,Total bed days lost due to delayed discharges,2026-06-17
+HSPAG23,Delayed hospital discharge due to being on home care waiting list,2026-06-17
+HSPAE26,"Hospitalised patients with at least one healthcare associated infection e.g. in-hospital pneumonia, hospital acquired COVID-19",2026-06-17
