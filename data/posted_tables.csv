@@ -760,3 +760,6 @@ HSPAH23,Readmission related to emergency care provision,2026-06-17
 HSPAG29,Total bed days lost due to delayed discharges,2026-06-17
 HSPAG23,Delayed hospital discharge due to being on home care waiting list,2026-06-17
 HSPAE26,"Hospitalised patients with at least one healthcare associated infection e.g. in-hospital pneumonia, hospital acquired COVID-19",2026-06-17
+HPSAE215,Hospitals having PEWS (Paediatric Early Warning System) implemented,2026-06-18
+HPSAE214,Hospitals having NEWS (National Early Warning System) implemented in all clinical areas of acute hospitals and single specialty hospitals,2026-06-18
+HSPAE127,Thirty-day unplanned readmission rates,2026-06-18
