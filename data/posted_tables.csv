@@ -763,3 +763,6 @@ HSPAE26,"Hospitalised patients with at least one healthcare associated infection
 HPSAE215,Hospitals having PEWS (Paediatric Early Warning System) implemented,2026-06-18
 HPSAE214,Hospitals having NEWS (National Early Warning System) implemented in all clinical areas of acute hospitals and single specialty hospitals,2026-06-18
 HSPAE127,Thirty-day unplanned readmission rates,2026-06-18
+HSPAB110,Share of doctors,2026-06-18
+HSPAJ11,Number of Registries,2026-06-18
+HSPAM114,Practicing nurses aged 55 and over,2026-06-18
