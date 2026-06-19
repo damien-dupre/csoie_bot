@@ -775,3 +775,6 @@ FDIA03,Inward Foreign Direct Investment Positions by Country of Ultimate Investm
 FDIA04,Outward Foreign Direct Investment Positions by Country of Ultimate Investment,2026-06-19
 SEI07,Monthly Fuel Consumption for Transport,2026-06-19
 EMP01,Maternity and Paternity benefit rate,2026-06-19
+EMP02,Maternity and Paternity benefit rate,2026-06-19
+EMP12,Employer Pay During Maternity,2026-06-19
+EMP13,Total Pay (Employer plus Maternity Benefit) During Maternity,2026-06-19
