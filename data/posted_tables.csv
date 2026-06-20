@@ -781,3 +781,6 @@ EMP13,Total Pay (Employer plus Maternity Benefit) During Maternity,2026-06-19
 EMP11,Maternity and Paternity Benefit,2026-06-19
 EMP14,Employer pay during Maternity,2026-06-19
 EMP15,Total Pay (Employer plus Maternity Benefit) During Maternity,2026-06-19
+EMP25,Parent's Benefit Rate,2026-06-20
+EMP24,Subsequent Parent's Benefit Claims,2026-06-20
+EMP26,Number of weeks between Maternity Benefit and Parent's Benefit,2026-06-20
