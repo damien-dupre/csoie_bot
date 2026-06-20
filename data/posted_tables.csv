@@ -784,3 +784,6 @@ EMP15,Total Pay (Employer plus Maternity Benefit) During Maternity,2026-06-19
 EMP25,Parent's Benefit Rate,2026-06-20
 EMP24,Subsequent Parent's Benefit Claims,2026-06-20
 EMP26,Number of weeks between Maternity Benefit and Parent's Benefit,2026-06-20
+EMP27,Employer paid maternity in Public or Private sector,2026-06-20
+EMP28,Private or Public Sector total pay for Maternity Benefit,2026-06-20
+EMP18,Benefit Recipients Returning to Work within 6 Months,2026-06-20
