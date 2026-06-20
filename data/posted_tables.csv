@@ -787,3 +787,6 @@ EMP26,Number of weeks between Maternity Benefit and Parent's Benefit,2026-06-20
 EMP27,Employer paid maternity in Public or Private sector,2026-06-20
 EMP28,Private or Public Sector total pay for Maternity Benefit,2026-06-20
 EMP18,Benefit Recipients Returning to Work within 6 Months,2026-06-20
+EMP20,Return to Work post maternity,2026-06-20
+EMP19,Work status 12 months post maternity,2026-06-20
+EMP21,Work status 12 months post maternity,2026-06-20
