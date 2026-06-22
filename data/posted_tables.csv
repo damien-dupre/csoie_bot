@@ -796,3 +796,6 @@ EMP30,Number of weeks between Maternity Benefit and first pay upon return to wor
 EMP31,Rate of Paternity Benefit Uptake by Sector,2026-06-20
 EMP32,Rate of Paternity Benefit Uptake by Enterprise Size,2026-06-20
 EMP33,Parent's Benefit by weeks taken,2026-06-20
+PPM02,Drivers with Penalty Point Offences Recorded,2026-06-22
+PPM04,Penalty Point Offences Recorded,2026-06-22
+PPM05,Penalty Point Offences Recorded,2026-06-22
