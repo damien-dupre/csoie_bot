@@ -813,3 +813,6 @@ KTA17,Public hospital bed days used,2026-06-23
 TBQ01,Vessel Arrivals,2026-06-24
 TBQ02,Tonnage of Goods Handled,2026-06-24
 TBQ03,Passenger and Commercial Vehicles (Roll On/Roll Off) Handled,2026-06-24
+TBQ04,Maritime Container Cargo (Lift On/ Lift Off Handled),2026-06-24
+TBQ07,Tonnage of Goods Handled at Irish Ports,2026-06-24
+TCA01,Passenger Journeys by Rail (Thousand),2026-06-24
