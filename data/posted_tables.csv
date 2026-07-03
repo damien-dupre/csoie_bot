@@ -879,3 +879,6 @@ NAQ01,Expenditure on GNP and Percentage change on Expenditure on GNP at Constant
 NAQ02,Gross Value Added at Basic Prices,2026-07-03
 NAQ03,Gross Domestic Product and Gross National Product,2026-07-03
 NA024,Gross Domestic Physical Capital Formation at Current Market Prices,2026-07-03
+NA025,Gross Domestic Fixed Capital Formation at Current Market Prices,2026-07-03
+NA026,Gross Domestic Physical Capital Formation at Constant Market,2026-07-03
+NA027,Gross Domestic Fixed Capital Formation by Sector of Use at Constant Market Prices,2026-07-03
