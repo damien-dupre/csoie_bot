@@ -911,3 +911,6 @@ ASD08,Number of cases receiving treatment for alcohol use as recorded on the Nat
 ASD09,Number of discharges from Irish hospitals with an alcohol-related diagnosis as recorded on the Hospital In-Patient Enquiry (HIPE) scheme,2026-07-08
 ASD10,Number of admissions to psychiatric hospitals with an alcohol-related diagnosis as recorded on the National Psychiatric Inpatient Reporting System (NPIRS),2026-07-08
 ASD11,Number of alcohol-related crime incidents recorded on the Police Using Leading Systems Effectively (PULSE) system,2026-07-08
+MEC03,Metered Electricity Consumption,2026-07-08
+MEC04,Large Energy Users Metered Electricity Consumption,2026-07-08
+MEC02,Data Centres Metered Electricity Consumption,2026-07-08
