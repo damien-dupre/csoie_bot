@@ -908,3 +908,6 @@ ASD05,Number of patients prescribed alcohol-related medications through the HSE 
 ASD06,Alcohol attributable deaths as recorded on the National Drug-Related Deaths Index (NDRDI),2026-07-07
 ASD07,Alcohol-related poisoning deaths as recorded on the National Drug-Related Deaths Index (NDRDI),2026-07-07
 ASD08,Number of cases receiving treatment for alcohol use as recorded on the National Drug Treatment Reporting System (NDTRS),2026-07-07
+ASD09,Number of discharges from Irish hospitals with an alcohol-related diagnosis as recorded on the Hospital In-Patient Enquiry (HIPE) scheme,2026-07-08
+ASD10,Number of admissions to psychiatric hospitals with an alcohol-related diagnosis as recorded on the National Psychiatric Inpatient Reporting System (NPIRS),2026-07-08
+ASD11,Number of alcohol-related crime incidents recorded on the Police Using Leading Systems Effectively (PULSE) system,2026-07-08
