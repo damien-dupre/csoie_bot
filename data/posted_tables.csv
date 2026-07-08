@@ -914,3 +914,6 @@ ASD11,Number of alcohol-related crime incidents recorded on the Police Using Lea
 MEC03,Metered Electricity Consumption,2026-07-08
 MEC04,Large Energy Users Metered Electricity Consumption,2026-07-08
 MEC02,Data Centres Metered Electricity Consumption,2026-07-08
+MEC05,Metered Electricity Consumption,2026-07-08
+MEC06,Number of Residential Electricity Meters,2026-07-08
+MEC07,Residential Electricity and Non-Residential Meters,2026-07-08
