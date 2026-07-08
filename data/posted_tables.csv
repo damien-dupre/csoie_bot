@@ -917,3 +917,6 @@ MEC02,Data Centres Metered Electricity Consumption,2026-07-08
 MEC05,Metered Electricity Consumption,2026-07-08
 MEC06,Number of Residential Electricity Meters,2026-07-08
 MEC07,Residential Electricity and Non-Residential Meters,2026-07-08
+MEC08,Metered Electricity Consumption for Stand-alone EV Charge Points,2026-07-08
+UA05,Number and location (based on PPSN allocations data) of arrivals from Ukraine,2026-07-08
+UA07,PPSN Registrations of Arrivals from Ukraine,2026-07-08
