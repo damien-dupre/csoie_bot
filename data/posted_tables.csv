@@ -983,3 +983,6 @@ PRA10,Individuals released from custody by 1 year re-offending indicator,2026-07
 PRA12,Individuals released from custody by 1 year re-offending indicator,2026-07-18
 PRA08,Individuals released from custody by 3 year re-offending indicator,2026-07-18
 PRA13,Re-offenders released from custody by 1 year re-offending indicator,2026-07-18
+PRA19,Individuals released from custody by 1-year re-offending indicator,2026-07-18
+NDTRS01,Number of cases treated for drugs as a main problem,2026-07-18
+NDTRS05,"Polydrug use - additional problem drugs for all cases, new cases, and previously treated cases, where drug was the main problem",2026-07-18
