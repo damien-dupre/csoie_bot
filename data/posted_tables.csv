@@ -989,3 +989,6 @@ NDTRS05,"Polydrug use - additional problem drugs for all cases, new cases, and p
 NDTRS06,Injecting history in cases treated for drugs as a main problem,2026-07-18
 NDTRS07,Number of cases treated for drugs as a main problem by HSE Health Region area of residence,2026-07-18
 NDTRS08,Number of cases treated for alcohol as a main problem,2026-07-18
+NDTRS10,Level of problem alcohol use,2026-07-18
+NDTRS11,Type of alcohol consumed,2026-07-18
+NDTRS12,Amount of alcohol consumed by cases that consumed alcohol in the 30 days prior to treatment start,2026-07-18
