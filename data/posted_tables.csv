@@ -1012,3 +1012,6 @@ MDSI12,Average distance to the nearest service for individuals and households by
 MDSI13,Distance to nearest regional service for individuals and households by Local Electoral Area,2026-07-21
 MDSI14,Distance to nearest regional service for individuals and households by Administrative Counties,2026-07-21
 MDSI15,Distance to nearest regional service for individuals and households by County,2026-07-21
+MDSI16,Distance to nearest regional service for individuals and households by NUTS 3 Region,2026-07-21
+MDSI17,Distance to nearest regional service for individuals and households by Town,2026-07-21
+MDSI18,Distance to nearest regional service for individuals and households by Urban or Rural Area,2026-07-21
