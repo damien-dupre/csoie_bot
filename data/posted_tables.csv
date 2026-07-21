@@ -1003,3 +1003,6 @@ MDSI03,Average distance to the nearest service for individuals and households by
 MDSI04,Average distance to the nearest service for individuals and households by Administrative County,2026-07-21
 MDSI05,Average distance to the nearest service for individuals and households by County,2026-07-21
 MDSI06,Average distance to the nearest service for individuals and households by NUTS 3 Region,2026-07-21
+MDSI07,Average distance to the nearest service for individuals and households by Towns,2026-07-21
+MDSI08,Average distance to the nearest service for individuals and households by Urban or Rural Area,2026-07-21
+MDSI09,Average distance to the nearest service for individuals and households by HSE Community Healthcare Networks,2026-07-21
