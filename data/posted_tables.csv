@@ -997,3 +997,6 @@ PRA18,Re-offenders released from custody by 1 year re-offending indicator,2026-0
 PRA05,Individuals released from custody by 3 year re-offending indicator,2026-07-18
 PRA07,Re-offenders released from custody by 3 year re-offending indicator,2026-07-18
 PRA11,Individuals released from custody by 1 year re-offending indicator,2026-07-18
+MDSI01,Average distance to the nearest service for individuals and households by Small Area,2026-07-21
+MDSI02,Average distance to the nearest service for individuals and households by Electoral Division,2026-07-21
+MDSI03,Average distance to the nearest service for individuals and households by Local Electoral Area,2026-07-21
