@@ -1009,3 +1009,6 @@ MDSI09,Average distance to the nearest service for individuals and households by
 MDSI10,Average distance to the nearest service for individuals and households by HSE Community Specialist Teams,2026-07-21
 MDSI11,Average distance to the nearest service for individuals and households by HSE Integrated Healthcare Areas,2026-07-21
 MDSI12,Average distance to the nearest service for individuals and households by HSE Health Regions,2026-07-21
+MDSI13,Distance to nearest regional service for individuals and households by Local Electoral Area,2026-07-21
+MDSI14,Distance to nearest regional service for individuals and households by Administrative Counties,2026-07-21
+MDSI15,Distance to nearest regional service for individuals and households by County,2026-07-21
