@@ -1015,3 +1015,6 @@ MDSI15,Distance to nearest regional service for individuals and households by Co
 MDSI16,Distance to nearest regional service for individuals and households by NUTS 3 Region,2026-07-21
 MDSI17,Distance to nearest regional service for individuals and households by Town,2026-07-21
 MDSI18,Distance to nearest regional service for individuals and households by Urban or Rural Area,2026-07-21
+MDSI22,Distance to nearest regional service for individuals and households by HSE Health Regions,2026-07-22
+MDSI21,Distance to nearest regional service for individuals and households by HSE Integrated Healthcare Area,2026-07-22
+MDSI20,Distance to nearest regional service for individuals and households by HSE Community Specialist Teams,2026-07-22
