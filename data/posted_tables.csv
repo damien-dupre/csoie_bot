@@ -1021,3 +1021,6 @@ MDSI20,Distance to nearest regional service for individuals and households by HS
 MDSI19,Distance to nearest regional service for individuals and households by HSE Community Healthcare Networks,2026-07-22
 MDSI23,Distance to nearest local service for individuals and households by Local Electoral Area,2026-07-22
 MDSI24,Distance to nearest local service for individuals and households by Administrative Counties,2026-07-22
+MDSI25,Distance to nearest local service for individuals and households by County,2026-07-22
+MDSI26,Distance to nearest local service for individuals and households by NUTS 3 Region,2026-07-22
+MDSI27,Distance to nearest local service for individuals and households by Town,2026-07-22
