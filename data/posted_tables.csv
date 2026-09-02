@@ -1230,3 +1230,6 @@ HRD37,Number of service users registered on NASS,2026-09-02
 HRD02,Primary disability among adults on NASS,2026-09-02
 HRD03,Additional disabilities among adults registered on NASS,2026-09-02
 HRD04,Day services accessed by adults on NASS,2026-09-02
+HRD07,Occupational status of adults on NASS,2026-09-02
+HRD08,Living arrangements of adults on NASS,2026-09-02
+HRD09,Primary carer information for adults on NASS not living in a residential setting,2026-09-02
