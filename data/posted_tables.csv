@@ -1225,5 +1225,8 @@ PCIEV03,Public electric vehicle charging points and fast charging points,2026-08
 PCIEV02,Public electric vehicle charging points (EVSEs) and fast charging points,2026-08-29
 RTA02,Used  (Imported) Cars Registered,2026-08-31
 HRD35,"Proportion of adults accessing disability services per 1,000 of the general population aged 18 years and over on NASS",2026-09-02
-HRD36,"Proportion of adults accessing disability services per 1,000 of the general population aged 18 years and over on NASS ",2026-09-02
+HRD36,"Proportion of adults accessing disability services per 1,000 of the general population aged 18 years and over on NASS",2026-09-02
 HRD37,Number of service users registered on NASS,2026-09-02
+HRD02,Primary disability among adults on NASS,2026-09-02
+HRD03,Additional disabilities among adults registered on NASS,2026-09-02
+HRD04,Day services accessed by adults on NASS,2026-09-02
