@@ -1236,3 +1236,6 @@ HRD09,Primary carer information for adults on NASS not living in a residential s
 HRD10,Adults on NASS living with their primary carer,2026-09-03
 HRD12,Age group of primary carer to adults on NASS,2026-09-03
 HRD14,Current adult day services recorded on NASS,2026-09-03
+HRD42,Current supports for daily living services recorded on NASS,2026-09-03
+HRD43,Residential services identified as required on NASS,2026-09-03
+HRD44,Day respite services identified as required on NASS,2026-09-03
