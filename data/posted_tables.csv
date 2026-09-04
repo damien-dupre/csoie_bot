@@ -1244,3 +1244,6 @@ HRD46,Supports for daily living services identified as required on NASS,2026-09-
 BEU01,Business Energy Use in Kilotonne of Oil Equivalent (ktoe),2026-09-04
 BEU02,Business Energy Use in Million Euro,2026-09-04
 HSPAA35,Prevalence of low birth-weight infants,2026-09-04
+HSPAE11,"Congestive heart failure hospital admissions in adults per 100,000 population (age-sex standardised)",2026-09-04
+HSPAE12,Patients whose principal diagnosis was stroke and who were admitted to a hospital Stroke Unit,2026-09-04
+HSPAE14,Thirty-day mortality after hospital admission for ischaemic stroke per 100 hospital admissions (age-sex standardised),2026-09-04
