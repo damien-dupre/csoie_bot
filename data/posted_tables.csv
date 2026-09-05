@@ -1250,3 +1250,6 @@ HSPAE14,Thirty-day mortality after hospital admission for ischaemic stroke per 1
 HSPAE15,"Thirty-day mortality following AMI per 100,000 population (age-sex standardised)",2026-09-04
 HSPAE16,"Diabetes hospital admissions in adults per 100,000 population (age-sex standardised)",2026-09-04
 HSPAH21,Bed days used for ambulatory care sensitive conditions,2026-09-04
+BPQ22,International Investment Position BPM6,2026-09-05
+BPQ23,International Investment Position BPM6,2026-09-05
+BPQ24,Gross External Debt BPM6,2026-09-05
