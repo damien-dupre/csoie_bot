@@ -1256,3 +1256,6 @@ BPQ24,Gross External Debt BPM6,2026-09-05
 BPQ25,External Assets in Debt Instruments BPM6,2026-09-05
 BPQ26,International Investment Position BPM6,2026-09-05
 BPQ33,Financial Account BPM6,2026-09-05
+BPQ34,Current Account: Services BPM6,2026-09-05
+BPQ35,Current Account with the UK: Merchandise and Services,2026-09-05
+BPQ36,Current Account with the UK: Primary and Secondary Income BPM6,2026-09-05
