@@ -1310,3 +1310,6 @@ WIP01,Wood Input Purchases,2026-09-18
 QQI01,"Number of QQI Awards Made, Sector",2026-09-21
 SCA29,Children who were absent from School for 20 days or more in the School Year,2026-09-21
 SCA31,Average Percentage of secondary school children who were absent from school for 20 days or more in the school year,2026-09-21
+QQI02,"Number of QQI Awards Made, ISCED – Further Education Only",2026-09-21
+QQI03,"Number of QQI Awards Made, ISCED – Higher Education Only",2026-09-21
+QQI04,"Number of QQI Awards Made, Provider Type – Further Education Only",2026-09-21
