@@ -1313,3 +1313,6 @@ SCA31,Average Percentage of secondary school children who were absent from schoo
 QQI02,"Number of QQI Awards Made, ISCED – Further Education Only",2026-09-21
 QQI03,"Number of QQI Awards Made, ISCED – Higher Education Only",2026-09-21
 QQI04,"Number of QQI Awards Made, Provider Type – Further Education Only",2026-09-21
+QQI05,"Number of QQI Awards Made, Provider Type – Higher Education Only",2026-09-22
+QQI06,"Number of QQI Awards Made, Grades – Further Education Only",2026-09-22
+QQI07,"Number of QQI Awards Made, Grades – Higher Education Only",2026-09-22
