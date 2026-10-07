@@ -1363,3 +1363,6 @@ BRA32,Business Demography NACE Rev 2,2026-10-06
 BRA33,Enterprise Deaths NACE Rev 2,2026-10-06
 BRA34,Business Demography,2026-10-06
 BRA35,Enterprise Deaths NACE Rev 2,2026-10-06
+BRA36,Enterprise Survival NACE Rev 2,2026-10-07
+NEA04,Mean and Median Weekly Earnings,2026-10-07
+NEA05,Mean and Median Annual Earnings,2026-10-07
