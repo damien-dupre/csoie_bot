@@ -1449,3 +1449,6 @@ WBD02,Healthy Life Years (HLY) at birth,2026-10-26
 NA011,Household Income and Expenditure,2026-10-28
 MDSI35,Average distance to nearest service by County,2026-10-28
 MDSI41,Average distance to nearest service by HSE Health Regions,2026-10-28
+MDSI44,Average distance to nearest service by County,2026-10-29
+MDSI47,Average distance to nearest service by HSE Community Healthcare Networks,2026-10-29
+MDSI50,Average distance to nearest service by HSE Health Regions,2026-10-29
