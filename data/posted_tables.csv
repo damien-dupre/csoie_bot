@@ -1455,3 +1455,6 @@ MDSI50,Average distance to nearest service by HSE Health Regions,2026-10-29
 MDSI53,Average distance to nearest service by County,2026-10-29
 MDSI56,Average distance to nearest service by HSE Community Healthcare Networks,2026-10-29
 MDSI65,Average distance to nearest service by Administrative Counties,2026-10-29
+VSA01,Births by Occurrence,2026-10-30
+VSA102,Births Occurrence,2026-10-30
+VSA103,Total Number of Hospital Births,2026-10-30
