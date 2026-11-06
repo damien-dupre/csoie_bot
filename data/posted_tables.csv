@@ -1480,3 +1480,6 @@ TRS38,Rent as Percentage of Disposable Income and Percentage of Tenants who Pay 
 TRS39,Rent as Percentage of Disposable Income and Percentage of Tenants who Pay 40% or More of Their Disposable Income on Rent,2026-11-06
 TRS26,RTB rental properties match rates,2026-11-06
 TRS27,RTB Rental Properties by building energy rating by local authority,2026-11-06
+TRS28,RTB rental properties by dwelling type by local authority,2026-11-06
+TRS30,RTB properties by main space heating fuel,2026-11-06
+TRS33,RTB rental properties by total floor area by local electoral area,2026-11-06
