@@ -2,44 +2,76 @@ name: cso_bluesky_bot
 
 on:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run: save the charts as an artifact instead of posting"
+        type: boolean
+        default: false
   schedule:
     # Runs every 30 minutes from 10am-6pm UTC (new datasets published ~11am Irish time)
     - cron: '*/30 10-18 * * *'
 
+# one run at a time, so two runs can never post the same table
+concurrency:
+  group: cso-bluesky-bot
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
 jobs:
   check-and-post:
-    runs-on: macos-latest
-    
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
 
-      - name: Install system dependencies (macOS)
-        run: |
-          brew install harfbuzz fribidi freetype
+      - name: Install R packages (binaries, cached between runs)
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: '"hard"'  # what the packages need to run, not their Suggests
+          packages: |
+            any::bskyr
+            any::csodata
+            any::dplyr
+            any::forcats
+            any::ggplot2
+            any::glue
+            any::ragg
+            any::readr
+            any::scales
+            any::stringr
+            any::systemfonts
 
-      - name: Install R packages
-        run: |
-          R -e 'install.packages(c("bskyr", "csodata", "glue", "scales", "tidyverse"))'
-      - name: Debug secrets
-        run: |
-          if [ -z "$BLUESKY_CSOIE_APP_USER" ]; then echo "SECRET IS EMPTY"; else echo "SECRET IS SET (length: ${#BLUESKY_CSOIE_APP_USER})"; fi
-        env:
-          BLUESKY_CSOIE_APP_USER: ${{ secrets.BLUESKY_CSOIE_APP_USER }}
       - name: Run CSO Bluesky bot
         run: Rscript bot_cso_bluesky.R
         env:
           BLUESKY_CSOIE_APP_USER: ${{ secrets.BLUESKY_CSOIE_APP_USER }}
           BLUESKY_CSOIE_APP_PASS: ${{ secrets.BLUESKY_CSOIE_APP_PASS }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          LANG: C.UTF-8  # so the "·" in posts and captions is not mangled
 
-      - name: Commit updated tracking file
+      - name: Upload dry-run charts
+        if: ${{ inputs.dry_run }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dry-run-charts
+          path: dry_run/
+          if-no-files-found: ignore
+
+      # runs even if the bot stopped part-way, so posts already made are recorded
+      - name: Commit updated logs
+        if: ${{ !cancelled() && !inputs.dry_run }}
         run: |
           git config user.name "Automated"
           git config user.email "actions@users.noreply.github.com"
-          git add data/posted_tables.csv
-          timestamp=$(date -u)
-          git commit -m "Update posted tables: ${timestamp}" || exit 0
-          git push
+          git add data/
+          git commit -m "Update posted tables: $(date -u)" || exit 0
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
