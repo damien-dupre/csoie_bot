@@ -3,7 +3,7 @@
 #
 # Each run finds CSO tables released since yesterday that have not been posted
 # since that release, draws a chart of each with ggplot2 and posts up to
-# MAX_POSTS of them to Bluesky.
+# MAX_POSTS of them to Bluesky, newest release first.
 #
 # Two logs, committed back to the repository by the workflow:
 #   data/posted_tables.csv   one row per post
@@ -101,6 +101,8 @@ log_failure <- function(tbl, reason) {
 # releases to post -------------------------------------------------------------
 # A table is due when it was released since yesterday and not posted since.
 # Dates, not times, are compared, so a table is posted at most once a day.
+# Newest releases come first: GitHub starts this workflow far less often than
+# the schedule asks, so when not everything due fits, today's tables win.
 find_due_releases <- function(toc, posted, skipped) {
   last_posted <- posted |>
     mutate(last_posted = as.Date(posted_date)) |>
@@ -117,7 +119,7 @@ find_due_releases <- function(toc, posted, skipped) {
     left_join(last_posted, by = "id") |>
     filter(is.na(last_posted) | release_date > last_posted) |>
     anti_join(given_up, by = c("id", "release_date")) |>
-    arrange(LastModified)
+    arrange(desc(LastModified))
 }
 
 # chart data -------------------------------------------------------------------
