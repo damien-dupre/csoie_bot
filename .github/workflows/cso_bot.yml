@@ -43,9 +43,11 @@ jobs:
             any::forcats
             any::ggplot2
             any::glue
+            any::ragg
             any::readr
             any::scales
             any::stringr
+            any::systemfonts
 
       - name: Run CSO Bluesky bot
         run: Rscript bot_cso_bluesky.R

@@ -25,6 +25,7 @@ library(glue)
 library(readr)
 library(scales)
 library(stringr)
+library(systemfonts)
 
 # settings ---------------------------------------------------------------------
 MAX_POSTS    <- 3   # posts per run
@@ -38,8 +39,18 @@ MAX_FACETS  <- 12   # small multiples on one chart
 MAX_PERIODS <- 20   # time points on a categorical x axis
 MAX_YEARS   <- 6    # years on a year-over-year chart
 
-CSO_BLUE <- "#2171B5"
-DRY_RUN  <- Sys.getenv("DRY_RUN") == "true"
+# chart style
+CHART_FONT <- "Roboto"   # any Google Font: downloaded when the bot runs
+CSO_BLUE   <- "#2171B5"  # single lines, bars and the latest year
+# Paul Tol's "vibrant" palette: colour-blind safe and readable on white
+LINE_COLOURS <- c("#0077BB", "#EE7733", "#009988", "#EE3377", "#33BBEE", "#CC3311")
+# earlier years on a year-over-year chart fade from light to mid grey
+PAST_YEARS <- c("#D0D7E1", "#7D8A9C")
+# a middle dot between the parts of a subtitle, written as an escape so it
+# prints correctly whatever the locale
+SEPARATOR <- " \u00b7 "
+
+DRY_RUN <- Sys.getenv("DRY_RUN") == "true"
 
 POSTED_FILE  <- "data/posted_tables.csv"
 SKIPPED_FILE <- "data/skipped_tables.csv"
@@ -63,6 +74,8 @@ MONTH_PATTERN <- paste0("^\\d{4}\\s+(", paste(month.name, collapse = "|"), ")$")
 TOTAL_PATTERN <- "(?i)^(total|all\\b|both\\b|state$)"
 # columns that are never dimensions
 NOT_DIMENSIONS <- c("value", "Statistic")
+# NACE industry codes after a name, such as "(105)", "(10 to 33)" or "(B to E)"
+NACE_CODES <- "\\s*\\((?:[A-Z]{1,2}|\\d+)(?:\\s*(?:to|-|,|;)\\s*(?:[A-Z]{1,2}|\\d+))*\\)$"
 
 # logs -------------------------------------------------------------------------
 EMPTY_POSTED <- tibble(
@@ -196,6 +209,13 @@ prepare_chart_data <- function(df) {
   time <- find_time_column(df)
   time_columns <- c(intersect(TIME_COLUMNS, names(df)), time)
 
+  # a table without a time axis can still be for one period, such as a census year
+  single_period <- NA_character_
+  listed_time <- intersect(TIME_COLUMNS, names(df))
+  if (is.na(time) && length(listed_time) > 0) {
+    single_period <- as.character(df[[listed_time[1]]][1])
+  }
+
   # monthly labels become dates; over several years, a year-over-year chart
   # of the latest MAX_YEARS years, the current partial year included
   year_over_year <- FALSE
@@ -245,7 +265,7 @@ prepare_chart_data <- function(df) {
     keep <- c(values[is_total(values)], values)[1]
     df <- df |> filter(.data[[col]] == keep)
     if (length(values) > 1 && !is_total(keep)) {
-      held <- c(held, paste0(to_sentence(col), ": ", keep))
+      held <- c(held, paste0(to_label(col), ": ", keep))
     }
   }
 
@@ -273,92 +293,233 @@ prepare_chart_data <- function(df) {
     df <- df |> filter(.data[[time]] %in% tail(periods, MAX_PERIODS))
   }
 
+  # industry names lose their NACE codes in legends, panels and bars
+  for (col in intersect(c(colour, facet), str_subset(names(df), "(?i)nace"))) {
+    df[[col]] <- drop_nace_codes(df[[col]])
+  }
+
+  period <- if (is.na(time)) single_period else describe_period(df, time, year_over_year)
+
   list(
     data = df, time = time, colour = colour, facet = facet,
-    year_over_year = year_over_year, statistic = statistic, held = held
+    year_over_year = year_over_year, statistic = statistic, held = held,
+    period = period
   )
+}
+
+# "Manufacture of dairy products (105)" -> "Manufacture of dairy products",
+# unless two names would then be the same
+drop_nace_codes <- function(x) {
+  x <- droplevels(as.factor(x))
+  short <- str_remove(levels(x), NACE_CODES)
+  if (!anyDuplicated(short)) levels(x) <- short
+  x
+}
+
+# the period a chart covers: "2013 to 2025", "January 2026 to August 2026"
+describe_period <- function(df, time, year_over_year) {
+  if (year_over_year) return(paste(range(df$.year), collapse = " to "))
+  if (inherits(df[[time]], "Date")) {
+    date_format <- if (time == ".date") "%B %Y" else "%e %B %Y"
+    return(str_squish(paste(format(range(df[[time]]), date_format), collapse = " to ")))
+  }
+  periods <- if (is.factor(df[[time]])) levels(droplevels(df[[time]])) else sort(unique(df[[time]]))
+  paste(unique(c(first(periods), last(periods))), collapse = " to ")
 }
 
 # chart ------------------------------------------------------------------------
 cso_theme <- function() {
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = 13, base_family = CHART_FONT) +
     theme(
-      plot.title    = element_text(face = "bold", size = 13, lineheight = 1.2),
-      plot.subtitle = element_text(color = "grey40", size = 10),
-      plot.caption  = element_text(color = "grey55", size = 8),
-      axis.text.x   = element_text(angle = 45, hjust = 1),
-      strip.text    = element_text(size = 8, lineheight = 1.1),
-      panel.grid.minor = element_blank(),
-      plot.background  = element_rect(fill = "white", color = NA)
-    )
+      plot.title.position   = "plot",
+      plot.caption.position = "plot",
+      plot.title    = element_text(face = "bold", size = 17, lineheight = 1.1, margin = margin(b = 6)),
+      plot.subtitle = element_text(color = "grey35", size = 11.5, lineheight = 1.25, margin = margin(b = 14)),
+      plot.caption  = element_text(color = "grey50", size = 9, hjust = 0, margin = margin(t = 14)),
+      axis.title    = element_blank(),
+      axis.text     = element_text(color = "grey35", size = 10),
+      panel.grid.minor   = element_blank(),
+      panel.grid.major.x = element_blank(),
+      panel.grid.major.y = element_line(color = "grey90", linewidth = 0.4),
+      strip.text    = element_text(face = "bold", size = 10.5, hjust = 0, vjust = 0, margin = margin(b = 6)),
+      panel.spacing = unit(1.2, "lines"),
+      legend.position      = "top",
+      legend.justification = "left",
+      legend.title  = element_text(color = "grey35", size = 10),
+      legend.text   = element_text(size = 10),
+      plot.background = element_rect(fill = "white", color = NA),
+      plot.margin   = margin(18, 24, 12, 18)
+    ) +
+    # from ggplot2 3.5.0: legend keys fill rows first and line up with the title
+    if (packageVersion("ggplot2") >= "3.5.0") theme(legend.byrow = TRUE, legend.location = "plot")
 }
 
-# "Type.of.Beneficiary" -> "Type of beneficiary"
-to_sentence <- function(x) str_to_sentence(str_replace_all(x, "[._]", " "))
+# "Type.of.Land.Use" -> "Type of Land Use"
+to_label <- function(x) str_squish(str_replace_all(x, "[._]", " "))
 
-draw_chart <- function(chart, tbl) {
+# panel columns and image size, from the shape of the chart
+chart_layout <- function(chart) {
+  bars <- is.na(chart$time)
+  n_facets <- if (is.na(chart$facet)) 0 else n_distinct(chart$data[[chart$facet]])
+  n_bars <- if (bars) n_distinct(chart$data[[chart$colour]]) else 0
+  ncol <- case_when(
+    n_facets <= 1 ~ 1,
+    bars          ~ min(n_facets, 3),  # bar panels sit side by side
+    n_facets <= 3 ~ 1,
+    n_facets <= 8 ~ 2,
+    .default      = 3
+  )
+  rows <- max(1, ceiling(n_facets / ncol))
+  panel_height <- case_when(
+    bars          ~ 0.6 + 0.32 * n_bars,
+    n_facets == 0 ~ 3.6,
+    .default      = 1.9
+  )
+  list(ncol = ncol, width = c(8, 9, 10)[ncol], height = 2.4 + rows * panel_height)
+}
+
+# subtitle: what is measured and in what unit, the period, the panels and
+# anything held fixed, without repeating the title
+describe_chart <- function(chart, tbl, unit) {
+  measure <- chart$statistic
+  if (str_to_lower(measure) == str_to_lower(tbl$title)) measure <- NULL
+  # the unit, unless it is a plain count or already part of the statistic
+  show_unit <- length(unit) == 1 && !is.na(unit) && nzchar(unit) && unit != "Number" &&
+    !str_detect(str_to_lower(chart$statistic), fixed(str_to_lower(unit)))
+  if (show_unit) {
+    measure <- if (is.null(measure)) unit else paste0(measure, " (", unit, ")")
+  }
+  panels <- if (!is.na(chart$facet)) paste("Panels:", to_label(chart$facet))
+  period <- chart$period[!is.na(chart$period)]
+  paste(c(measure, period, panels, chart$held), collapse = SEPARATOR)
+}
+
+# earlier years fade from light to mid grey; the latest year is CSO blue
+year_colours <- function(years) {
+  years <- sort(unique(years))
+  setNames(c(colorRampPalette(PAST_YEARS)(length(years) - 1), CSO_BLUE), years)
+}
+
+# x axis labels evenly spaced, as many as fit the panel width: months as Jan,
+# Apr, Jul...; other periods counted back from the latest, which is always shown
+x_scale <- function(chart, layout) {
+  periods <- chart$data[[chart$time]]
+  panel_width <- (layout$width - 1.2) / layout$ncol  # inches, less the y axis
+  if (inherits(periods, "Date")) {
+    return(scale_x_date(labels = label_date_short(), breaks = breaks_pretty(n = floor(panel_width / 0.9))))
+  }
+  periods <- levels(droplevels(as.factor(periods)))
+  labels <- if (chart$year_over_year) str_sub(periods, 1, 3) else periods
+  fits <- max(2, floor(panel_width / (0.08 * max(nchar(labels)) + 0.3)))
+  every <- seq(1, length(periods), by = ceiling(length(periods) / fits))
+  if (chart$year_over_year) {
+    scale_x_discrete(breaks = periods[every], labels = function(x) str_sub(x, 1, 3))
+  } else {
+    scale_x_discrete(breaks = rev(periods)[every])
+  }
+}
+
+# lines are listed from highest to lowest at the latest period, so the legend
+# reads in the same order as the ends of the lines
+order_by_latest <- function(df, time, colour) {
+  latest <- df |>
+    filter(as.numeric(.data[[time]]) == max(as.numeric(.data[[time]]))) |>
+    summarise(value = mean(value), .by = all_of(colour)) |>
+    arrange(desc(value))
+  factor(df[[colour]], levels = union(as.character(latest[[colour]]), as.character(unique(df[[colour]]))))
+}
+
+# legend rows: as many keys on a row as the longest label allows
+legend_rows <- function(labels, width) {
+  longest <- max(nchar(unlist(str_split(labels, "\n"))))
+  per_row <- max(1, floor((width - 1.5) / (0.08 * longest + 0.6)))
+  ceiling(length(labels) / per_row)
+}
+
+draw_chart <- function(chart, tbl, unit = NULL) {
   df     <- chart$data
   time   <- chart$time
   colour <- chart$colour
   facet  <- chart$facet
+  bars   <- is.na(time)
+  layout <- chart_layout(chart)
+  wrap   <- function(x) str_wrap(x, 30)
+  # long series, such as daily data, get thinner lines
+  dense  <- !bars && n_distinct(df[[time]]) > 100
 
-  if (!is.na(colour) && !chart$year_over_year) df[[colour]] <- str_wrap(df[[colour]], 30)
-  show_points <- !is.na(time) && n_distinct(df[[time]]) <= 30
-
-  # titles, theme and facets are the same for every chart type
+  # titles, theme and panels are the same for every chart type
   shared <- list(
     labs(
-      title    = str_wrap(tbl$title, 55),
-      subtitle = str_wrap(paste(c(chart$statistic, chart$held), collapse = " · "), 80),
-      caption  = glue("Source: CSO PxStat ({tbl$id}) · data.cso.ie"),
-      x = NULL, y = str_wrap(chart$statistic, 35)
+      title    = str_wrap(tbl$title, round(7 * layout$width)),
+      subtitle = str_wrap(describe_chart(chart, tbl, unit), round(11 * layout$width)),
+      caption  = glue("Source: CSO PxStat ({tbl$id}){SEPARATOR}data.cso.ie")
     ),
     cso_theme()
   )
   if (!is.na(facet)) {
-    facet_title <- to_sentence(facet)
     shared <- c(shared, list(facet_wrap(
-      vars(.data[[facet]]), ncol = 1, strip.position = "right",
-      labeller = as_labeller(function(x) str_wrap(paste0(facet_title, ": ", x), 30))
+      vars(.data[[facet]]),
+      ncol = layout$ncol,
+      scales = if (bars) "fixed" else "free_y",  # each panel shows its own variation
+      labeller = as_labeller(function(x) str_wrap(x, c(80, 45, 32)[layout$ncol]))
     )))
   }
 
   # time with categories: coloured lines
-  if (!is.na(time) && !is.na(colour)) {
-    legend_title <- if (chart$year_over_year) "Year" else str_wrap(to_sentence(colour), 20)
-    p <- ggplot(df, aes(.data[[time]], value, color = .data[[colour]], group = .data[[colour]])) +
-      geom_line(linewidth = 1) +
-      scale_color_brewer(palette = "Set1", name = legend_title) +
-      scale_y_continuous(labels = label_comma()) +
+  if (!bars && !is.na(colour)) {
+    if (chart$year_over_year) {
+      latest <- max(df$.year)
+      legend_labels <- unique(df$.year)
+      p <- ggplot(df, aes(.data[[time]], value, color = .year, group = .year)) +
+        geom_line(aes(linewidth = .year == latest)) +
+        scale_linewidth_manual(values = c(`FALSE` = 0.7, `TRUE` = 1.6), guide = "none") +
+        scale_color_manual(values = year_colours(df$.year), name = NULL)
+    } else {
+      df[[colour]] <- order_by_latest(df, time, colour)
+      legend_labels <- wrap(levels(df[[colour]]))
+      p <- ggplot(df, aes(.data[[time]], value, color = .data[[colour]], group = .data[[colour]])) +
+        geom_line(linewidth = if (dense) 0.5 else 1) +
+        scale_color_manual(values = LINE_COLOURS, name = to_label(colour), labels = wrap)
+    }
+    p <- p +
+      x_scale(chart, layout) +
+      scale_y_continuous(labels = label_comma(), n.breaks = if (is.na(facet)) 6 else 4) +
+      shared +
+      guides(color = guide_legend(nrow = legend_rows(legend_labels, layout$width)))
+
+  # time only: a single line, shaded down to zero when zero is near the data
+  # (shading a series far from zero would flatten it)
+  } else if (!bars) {
+    shade <- min(df$value) >= 0 && min(df$value) < 0.5 * max(df$value)
+    p <- ggplot(df, aes(.data[[time]], value, group = 1)) +
+      (if (shade) geom_area(fill = CSO_BLUE, alpha = 0.12)) +
+      geom_line(color = CSO_BLUE, linewidth = if (dense) 0.6 else 1.2) +
+      (if (n_distinct(df[[time]]) <= 30) geom_point(color = CSO_BLUE, size = 2)) +
+      x_scale(chart, layout) +
+      scale_y_continuous(labels = label_comma(), n.breaks = 6) +
+      shared
+
+  # categories only: horizontal bars, largest at the top, each with its value
+  # (so no x axis is needed)
+  } else {
+    negative <- any(df$value < 0)
+    p <- df |>
+      mutate(bar = fct_reorder(wrap(.data[[colour]]), value)) |>
+      ggplot(aes(value, bar)) +
+      geom_col(fill = CSO_BLUE, width = 0.7) +
+      (if (negative) geom_vline(xintercept = 0, color = "grey60", linewidth = 0.4)) +
+      geom_text(
+        aes(label = label_comma()(value), hjust = if_else(value < 0, 1.15, -0.15)),
+        size = 3.6, color = "grey30", family = CHART_FONT
+      ) +
+      scale_x_continuous(expand = expansion(mult = c(if (negative) 0.25 else 0, 0.25))) +
+      coord_cartesian(clip = "off") +
       shared +
       theme(
-        legend.position = "bottom",
-        legend.title    = element_text(size = 9),
-        legend.text     = element_text(size = 8)
-      ) +
-      guides(color = guide_legend(ncol = 2))
-    if (show_points) p <- p + geom_point(size = 1.5)
-
-  # time only: a single line
-  } else if (!is.na(time)) {
-    p <- ggplot(df, aes(.data[[time]], value, group = 1)) +
-      geom_area(fill = CSO_BLUE, alpha = 0.15) +
-      geom_line(color = CSO_BLUE, linewidth = 1.2) +
-      scale_y_continuous(labels = label_comma()) +
-      shared
-    if (show_points) p <- p + geom_point(color = CSO_BLUE, size = 2)
-
-  # categories only: horizontal bars
-  } else {
-    p <- df |>
-      mutate(bar = fct_reorder(.data[[colour]], value)) |>
-      ggplot(aes(bar, value)) +
-      geom_col(fill = CSO_BLUE, width = 0.7) +
-      geom_text(aes(label = label_comma()(value)), hjust = -0.1, size = 3, color = "grey30") +
-      scale_y_continuous(labels = label_comma(), expand = expansion(mult = c(0, 0.15))) +
-      coord_flip() +
-      shared +
-      theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+        axis.text.x        = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.spacing      = unit(2.5, "lines")
+      )
   }
 
   p
@@ -367,12 +528,19 @@ draw_chart <- function(chart, tbl) {
 make_chart <- function(tbl) {
   df <- cso_get_data(tbl$id, pivot_format = "tall")
   if (is.null(df)) stop("Download failed")
-  chart <- prepare_chart_data(df)
-  p <- draw_chart(chart, tbl)
+  # the unit of the first statistic, which is the one charted; the label goes
+  # without a unit if the metadata can't be read
+  unit <- tryCatch(cso_get_meta(tbl$id)$Units, error = function(e) NULL)
 
-  n_facets <- if (is.na(chart$facet)) 0 else n_distinct(chart$data[[chart$facet]])
+  chart <- prepare_chart_data(df)
+  p <- draw_chart(chart, tbl, unit)
+
+  layout <- chart_layout(chart)
   file <- file.path(if (DRY_RUN) DRY_RUN_DIR else tempdir(), glue("cso_{tbl$id}.png"))
-  ggsave(file, p, width = 8, height = 5 + 0.8 * n_facets, dpi = 150, bg = "white")
+  ggsave(
+    file, p, device = ragg::agg_png,
+    width = layout$width, height = layout$height, dpi = 150, bg = "white"
+  )
   file
 }
 
@@ -380,7 +548,7 @@ make_chart <- function(tbl) {
 post_chart <- function(file, tbl, auth) {
   title <- str_trunc(tbl$title, 100)
   bs_post(
-    text       = glue("New CSO data: {title}\nTable: {tbl$id} · data.cso.ie\n#Ireland #OpenData #CSO"),
+    text       = glue("New CSO data: {title}\nTable: {tbl$id}{SEPARATOR}data.cso.ie\n#Ireland #OpenData #CSO"),
     images     = file,
     images_alt = glue("Chart of CSO table {tbl$id}: {title}"),
     auth       = auth
@@ -417,6 +585,13 @@ main <- function() {
       save_auth = FALSE
     )
   }
+
+  # the chart font, from Google Fonts; if it can't be had, charts use the
+  # default sans font rather than stopping the run
+  tryCatch(
+    require_font(CHART_FONT, fallback = "sans"),
+    error = function(e) message(glue("Font {CHART_FONT} unavailable: {conditionMessage(e)}"))
+  )
 
   n_posted <- 0
   for (i in seq_len(min(nrow(due), MAX_TRIES))) {
