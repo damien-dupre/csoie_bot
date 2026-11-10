@@ -1489,3 +1489,6 @@ AQA06,Area Farmed in June,2026-11-09
 DOTM09,Goods Vehicles,2026-11-10
 DOTM08,Private Vehicles,2026-11-10
 DOTM07,Number of Private Cars Licensed (Pre-CO2 emissions motor tax assessment),2026-11-10
+DOTM06,Number of Private Cars Licensed (WLTP CO2 emissions motor tax assessment),2026-11-10
+DOTM05,Number of Private Cars Licensed (NEDC CO2 emissions motor tax assessment),2026-11-10
+DOTM04,Goods Vehicles by Gross Weight,2026-11-10
