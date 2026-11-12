@@ -1498,3 +1498,6 @@ DEA01,Annual Earnings,2026-11-11
 DEA02,Gender Representation,2026-11-11
 DEA04,Annual Earnings and Gender Representation,2026-11-11
 DEA05,Weekly Earnings,2026-11-11
+ROA14,Persons Injured,2026-11-12
+ROA15,Persons Killed and Injured,2026-11-12
+ROA16,Number of Casualties,2026-11-12
