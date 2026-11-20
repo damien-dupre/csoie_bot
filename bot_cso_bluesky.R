@@ -336,7 +336,9 @@ cso_theme <- function() {
       plot.title    = element_text(face = "bold", size = 17, lineheight = 1.1, margin = margin(b = 6)),
       plot.subtitle = element_text(color = "grey35", size = 11.5, lineheight = 1.25, margin = margin(b = 14)),
       plot.caption  = element_text(color = "grey50", size = 9, hjust = 0, margin = margin(t = 14)),
-      axis.title    = element_blank(),
+      axis.title    = element_text(color = "grey35", size = 10.5),
+      axis.title.x  = element_text(margin = margin(t = 10)),
+      axis.title.y  = element_text(margin = margin(r = 10)),
       axis.text     = element_text(color = "grey35", size = 10),
       panel.grid.minor   = element_blank(),
       panel.grid.major.x = element_blank(),
@@ -378,20 +380,30 @@ chart_layout <- function(chart) {
   list(ncol = ncol, width = c(8, 9, 10)[ncol], height = 2.4 + rows * panel_height)
 }
 
-# subtitle: what is measured and in what unit, the period, the panels and
-# anything held fixed, without repeating the title
-describe_chart <- function(chart, tbl, unit) {
-  measure <- chart$statistic
-  if (str_to_lower(measure) == str_to_lower(tbl$title)) measure <- NULL
-  # the unit, unless it is a plain count or already part of the statistic
+# value axis title: the statistic and its unit, as in "Industrial Production
+# Index (Base 2021=100)". The unit is left out when it is a plain count or
+# already in the statistic; the statistic is left out when the chart title
+# already says it and there is a unit to show instead.
+measure_label <- function(chart, unit, title) {
+  statistic <- chart$statistic
   show_unit <- length(unit) == 1 && !is.na(unit) && nzchar(unit) && unit != "Number" &&
-    !str_detect(str_to_lower(chart$statistic), fixed(str_to_lower(unit)))
-  if (show_unit) {
-    measure <- if (is.null(measure)) unit else paste0(measure, " (", unit, ")")
-  }
+    !str_detect(str_to_lower(statistic), fixed(str_to_lower(unit)))
+  if (!show_unit) return(statistic)
+  if (str_to_lower(statistic) == str_to_lower(title)) return(unit)
+  paste0(statistic, " (", unit, ")")
+}
+
+# time axis title: "Year", "Quarter", "Half Year"...; monthly data say "Month"
+time_label <- function(chart) {
+  if (chart$time %in% c(".month", ".date")) "Month" else to_label(chart$time)
+}
+
+# subtitle: the period, the panels and anything held fixed (what is measured
+# is on the value axis)
+describe_chart <- function(chart) {
   panels <- if (!is.na(chart$facet)) paste("Panels:", to_label(chart$facet))
   period <- chart$period[!is.na(chart$period)]
-  paste(c(measure, period, panels, chart$held), collapse = SEPARATOR)
+  paste(c(period, panels, chart$held), collapse = SEPARATOR)
 }
 
 # earlier years fade from light to mid grey; the latest year is CSO blue
@@ -447,13 +459,23 @@ draw_chart <- function(chart, tbl, unit = NULL) {
   # long series, such as daily data, get thinner lines
   dense  <- !bars && n_distinct(df[[time]]) > 100
 
-  # titles, theme and panels are the same for every chart type
+  # titles, axis titles, theme and panels are the same for every chart type:
+  # time runs across and the measure up, except on bars, where the measure
+  # runs across and the categories up
+  measure  <- measure_label(chart, unit, tbl$title)
+  subtitle <- describe_chart(chart)
   shared <- list(
     labs(
       title    = str_wrap(tbl$title, round(7 * layout$width)),
-      subtitle = str_wrap(describe_chart(chart, tbl, unit), round(11 * layout$width)),
+      subtitle = if (nzchar(subtitle)) str_wrap(subtitle, round(11 * layout$width)),
       caption  = glue("Source: CSO PxStat ({tbl$id}){SEPARATOR}data.cso.ie")
     ),
+    if (bars) {
+      labs(x = str_wrap(measure, round(9 * layout$width)), y = to_label(colour))
+    } else {
+      # the y title is wrapped to the height of the panels
+      labs(x = time_label(chart), y = str_wrap(measure, max(20, round(12 * (layout$height - 2.4)))))
+    },
     cso_theme()
   )
   if (!is.na(facet)) {
@@ -500,7 +522,7 @@ draw_chart <- function(chart, tbl, unit = NULL) {
       shared
 
   # categories only: horizontal bars, largest at the top, each with its value
-  # (so no x axis is needed)
+  # (so the x axis needs no numbers, only its title)
   } else {
     negative <- any(df$value < 0)
     p <- df |>
