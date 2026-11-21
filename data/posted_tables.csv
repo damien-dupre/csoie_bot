@@ -1534,3 +1534,6 @@ NTA136,Time electric vehicle (EV) is charged when main method of charging EV is 
 NTA44,Electric Vehicle (EV) ownership by persons aged 18 years and over,2026-11-21
 NTA134,Main method of charging electric vehicles (EV) by persons aged 18 years and over,2026-11-21
 VSA35,Revised Deaths Occurring,2026-11-21
+VSA112,Revised Deaths Occuring,2026-11-21
+NTA141,Frequent bus users aged 18 years and over by days they use the bus,2026-11-21
+NTA150,Frequency of walking by persons aged 18 years and over,2026-11-21
